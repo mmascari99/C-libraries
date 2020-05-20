@@ -1,3 +1,9 @@
+/*
+* Just a simple stack data structure for integer and double data types. Can be easily modified for more data types.
+* Used by calling 'DATA TYPE'_'DATA STRUCTURE'. For example, a stack for integers is an INT_STACK. The double version is DOUBLE_STACK.
+* Naming style works with functions too. 'data type'_'data structure'_'action'. For example, int_stack_push() and double_stack_pop().
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -19,24 +25,24 @@ typedef struct DOUBLE_STACK{
 	DOUBLE_NODE* next;
 }DOUBLE_STACK;
 
-void int_stack_push(int value, INT_STACK* st);
-int int_stack_pop(INT_STACK* st);
-void double_stack_push(double value, DOUBLE_STACK* st);
-double double_stack_pop(DOUBLE_STACK* st);
+void int_stack_push(int value, INT_STACK* stack);
+int int_stack_pop(INT_STACK* stack);
+void double_stack_push(double value, DOUBLE_STACK* stack);
+double double_stack_pop(DOUBLE_STACK* stack);
 
 /*int main(){
-	INT_STACK st;
-	st.next = NULL;
+	INT_STACK stack;
+	stack.next = NULL;
 	
 	int k;
 	for(int j = 0; j < 100; j++){
 		for(int i = 0; i < 10000000; i++){
-			int_stack_push(i, &st);
+			int_stack_push(i, &stack);
 		}
 
 		for(int i = 0; i < 10000000; i++){
-			//printf("%d\n", stack_pop(&st));
-			k = int_stack_pop(&st);
+			//printf("%d\n", stack_pop(&stack));
+			k = int_stack_pop(&stack);
 		}
 	}
 	printf("No memory leak");
@@ -46,66 +52,66 @@ double double_stack_pop(DOUBLE_STACK* st);
 
 //Push to the stack. Provide an integer and stack as input to funtion. 
 //Stack is asked for as a way to prevent global variables.
-void int_stack_push(int value, INT_STACK* st){
+void int_stack_push(int value, INT_STACK* stack){
 	INT_NODE* temp = (INT_NODE*)malloc(sizeof(INT_NODE));
 	temp->value = value;
 	//If there is nothing on the stack, do this.
-	if(st->next == NULL){
+	if(stack->next == NULL){
 		temp->next = NULL;
-		st->next = temp;
+		stack->next = temp;
 	}else{ //Otherwise, do this.
-		temp->next = st->next;
-		st->next = temp;
+		temp->next = stack->next;
+		stack->next = temp;
 	}
 	return;
 }
 
 
-int int_stack_pop(INT_STACK* st){
+int int_stack_pop(INT_STACK* stack){
 	int value;
 	//Make sure there is something on the stack
-	if(st->next == NULL){
+	if(stack->next == NULL){
 		//Return 0 so the program does not crash. Error message should bring awareness to mistake. 
 		printf("Error: The stack is empty. Returning 0");
 		return 0;
 	}
 	//Set value then remove the top of the stack
-	value = st->next->value;
-	INT_NODE* temp = st->next;
-	st->next = st->next->next;
+	value = stack->next->value;
+	INT_NODE* temp = stack->next;
+	stack->next = stack->next->next;
 	free(temp); //No memory leaks here
 	return value;
 }
 
 //Push to the stack. Provide a double and stack as input to funtion. 
 //Stack is asked for as a way to prevent global variables.
-void double_stack_push(double value, DOUBLE_STACK* st){
+void double_stack_push(double value, DOUBLE_STACK* stack){
 	DOUBLE_NODE* temp = (DOUBLE_NODE*)malloc(sizeof(DOUBLE_NODE));
 	temp->value = value;
 	//If there is nothing on the stack, do this.
-	if(st->next == NULL){
+	if(stack->next == NULL){
 		temp->next = NULL;
-		st->next = temp;
+		stack->next = temp;
 	}else{ //Otherwise, do this.
-		temp->next = st->next;
-		st->next = temp;
+		temp->next = stack->next;
+		stack->next = temp;
 	}
 	return;
 }
 
 
-double double_stack_pop(DOUBLE_STACK* st){
+double double_stack_pop(DOUBLE_STACK* stack){
 	double value;
 	//Make sure there is something on the stack
-	if(st->next == NULL){
+	if(stack->next == NULL){
 		//Return 0.0 so the program does not crash. Error message should bring awareness to mistake. 
 		printf("Error: The stack is empty. Returning 0");
 		return 0.0;
 	}
 	//Set value then remove the top of the stack
-	value = st->next->value;
-	DOUBLE_NODE* temp = st->next;
-	st->next = st->next->next;
+	value = stack->next->value;
+	DOUBLE_NODE* temp = stack->next;
+	stack->next = stack->next->next;
 	free(temp); //No memory leaks here
 	return value;
 }
